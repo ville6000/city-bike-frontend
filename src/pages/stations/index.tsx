@@ -1,17 +1,17 @@
 import Head from "next/head";
 import Link from "next/link";
-import {IJourney} from "@/types/types";
+import {IStation} from "@/types/types";
 import {useEffect, useState} from "react";
 import {format} from 'date-fns';
 
 export default function Index() {
-    const [journeys, setJourneys] = useState([]);
+    const [stations, setStations] = useState([]);
 
     useEffect(() => {
-        fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/journeys')
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/stations')
             .then((res) => res.json())
             .then((data) => {
-                setJourneys(data);
+                setStations(data);
             });
     }, []);
 
@@ -26,27 +26,17 @@ export default function Index() {
             <main className="container mx-auto py-12">
                 <h1 className="text-4xl mb-4">HKI City Bike Log</h1>
                 <div className="w-full space-y-4">
-                    {journeys && journeys.map((journey: IJourney) => (
-                        <div key={journey.id} className="w-full flex p-6 border border-slate-200 rounded-sm shadow-sm">
-                            <Link href={`/journeys/${journey.id}`}>
-                                {format(new Date(journey.departedAt), 'dd.MM.yyyy HH:mm')}
+                    {stations && stations.map((station: IStation) => (
+                        <div key={station.id} className="w-full flex p-6 border border-slate-200 rounded-sm shadow-sm">
+                            <Link href={`/journeys/${station.identifier}`}>
+                                {station.name}
                             </Link>
 
                             <div className="flex items-center space-x-4 ml-4">
-                                <Link href={`/stations/${journey.departureStationId}`}>
-                                    {journey.departureStationName}
-                                </Link>
-                                <div>-</div>
-                                <Link href={`/stations/${journey.returnStationId}`}>
-                                    {journey.returnStationName}
-                                </Link>
+                                <div>{station.address}</div>
                             </div>
 
-                            <div className="ml-4">
-                                {Math.round((journey.distance / 1000))} km
-                            </div>
-
-                            <Link href={`/journeys/${journey.id}`} className="ml-auto">
+                            <Link href={`/stations/${station.identifier}`} className="ml-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                     className="w-5 h-5">
                                     <path fillRule="evenodd"

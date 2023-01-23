@@ -1,5 +1,5 @@
 import Head from "next/head";
-import {IJourney, IJourneyWithStations} from "@/types/journey";
+import {IJourney, IJourneyWithStations} from "@/types/types";
 import {GetStaticPaths, GetStaticProps, GetStaticPropsContext} from "next";
 import {format, intervalToDuration} from 'date-fns';
 import Link from "next/link";
